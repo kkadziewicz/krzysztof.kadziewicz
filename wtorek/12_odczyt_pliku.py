@@ -11,5 +11,5 @@ for line in dane:
 
     pozycja_z_pliku = line.strip().split(',')
     nazwisko = pozycja_z_pliku[0].strip()
-    rok_urodzenia = pozycja_z_pliku[1].strip()
+    rok_urodzenia = int(pozycja_z_pliku[1].strip())
     print(f"Przetworzone: {nazwisko} rok: {rok_urodzenia}")

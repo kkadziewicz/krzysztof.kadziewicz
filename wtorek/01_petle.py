@@ -1,0 +1,2 @@
+# petla interakcyjna + iterables
+

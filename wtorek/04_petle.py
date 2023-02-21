@@ -9,5 +9,9 @@ for element in lista:
     print(f"Wartość {element} ma typ {type(element)}")
     if isinstance(element, int):
         print(f"Litera to {chr(element)}")
+    elif isinstance(element, list):
+        print(f"Teraz lista wewnętrzna - {element}")
+        for inny in element:
+            print(f"Teraz lista wewnętrzna - {chr(inny)}")
     else:
         print("Sorry")

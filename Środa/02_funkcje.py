@@ -23,6 +23,5 @@ for element in lista:
         print(f"Teraz string wewnętrzna - {element}")
         for inny in element:
             print(f"Litera wewnętrzna ma kod {ord(inny)}")
-
     else:
         print("Sorry")

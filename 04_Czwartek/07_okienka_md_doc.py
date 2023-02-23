@@ -41,7 +41,7 @@ def generuj_dokument(code, start_date, end_date=TODAY_ISO):
     nowy_dokument = snakemd.new_doc(plik)
     #
     nowy_dokument.add_header(tytul_wykresu)
-    nowy_dokument.add_element(snakemd.Paragraph([snakemd.InlineText("Wykres", url=wykres_md, image=True)]))
+    nowy_dokument.add_element(snakemd.Paragraph([snakemd.InlineText("", url=wykres_md, image=True)]))
     try:
         nowy_dokument.output_page()
     except Exception as e:
@@ -65,8 +65,16 @@ def test_internetu():
     else:
         sg.Popup(f"Łączność do {NBP_URL} - code: {status_nbp}")
 
-def tworz_docx(plik_md):
-    pass
+def tworz_docx(token_plik):
+    os.chdir(TEMP_DIR+"/")
+    command = ["pandoc", "-o", f"{token_plik}.docx", f"{token_plik}.md"]
+    try:
+        efekt = subprocess.run(command, capture_output=True)
+        print(efekt)
+        return True
+    except:
+        sg.popup_error("Zainstaluj pandoc - pewnie go nie masz....")
+        return False
 
 # Start aplikacji
 init_dir()
@@ -79,7 +87,7 @@ app_layout = [
     [sg.Text("Ile dni wstecz wykres (max. 90)?"), sg.Input("")],
     [sg.Button("GENERUJ"),sg.Button("TEST INTERNETU"), sg.Button("KONIEC") ],
 ]
-window = sg.Window("Tutuł naszego okienka aplikacji", app_layout)
+window = sg.Window("GEN kursy walut i zapis do DOCX", app_layout)
 # używamy pętli nieskończonej, która działa aż do słowa kluczowego `break`
 # pamiętajmy o PEP-8, wcięciach i bloku kodu - https://www.python.org/dev/peps/pep-0008/#indentation
 while True:
@@ -94,6 +102,10 @@ while True:
         # https://docs.python.org/3/library/datetime.html#examples-of-usage-timedelta
         data_poczatkowa = TODAY - timedelta(int(values[1]))
         plik = generuj_dokument(waluta, data_poczatkowa.isoformat())
+        if tworz_docx(f"{plik}"):
+            sg.Popup(f"Plik {plik}.md przetworzony na DOCX")
+        else:
+            sg.popup_error("Błąd")
 
     if event == "TEST INTERNETU":
         test_internetu()

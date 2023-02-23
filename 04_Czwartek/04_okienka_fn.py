@@ -3,12 +3,12 @@ import PySimpleGUI as sg
 import requests
 import snakemd
 import subprocess
-import os
+import os  # https://docs.python.org/3/library/os.html
 from secrets import token_urlsafe
 from pathlib import Path
 
-
 TEMP_DIR = "tmp"
+NBP_URL = "https://api.nbp.pl/"
 
 def init_dir():
     if not Path(TEMP_DIR).exists():
@@ -24,7 +24,25 @@ def generuj_dokument():
         sg.Popup(e, title="ERROR")
 
 def test_internetu():
-    pass
+    # https://stackoverflow.com/questions/16511337/correct-way-to-try-except-using-python-requests-module
+    try:
+        nbp_test = requests.get(NBP_URL)
+        status_nbp = nbp_test.status_code
+    except Exception as e:
+        sg.Popup(f"Error -> {e} | status_nbp ustawiam na -> -999", title="ERROR")
+        status_nbp = -999
+
+    if status_nbp == 200:
+        sg.Popup(f"Łączność do {NBP_URL} - OK")
+    elif status_nbp == -999:
+        sg.Popup(f"Łączność do {NBP_URL} - sprawdź kabelek!!!!")
+    else:
+        sg.Popup(f"Łączność do {NBP_URL} - code: {status_nbp}")
+
+
+
+# Start aplikacji
+init_dir()
 
 # definiujemy wygląd aplikacji
 app_layout = [

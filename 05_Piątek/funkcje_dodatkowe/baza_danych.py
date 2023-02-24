@@ -30,13 +30,17 @@ def check_mail(db, mail, token):
     if os.path.exists(db):
         connection = connect(db)
         cursor = connection.cursor()
-        result = cursor.execute(f"SELECT * FROM {table} WHERE token=?", token)
-        print(result.fetchall())
-        connection.commit()
+        result = cursor.execute(f"SELECT * FROM {table} WHERE token=?", (token,) )
+        if len(result.fetchall()) != 1:
+            connection.close()
+            return False
+
+        _, db_mail, db_token = result.fetchall()[0]
+        if db_mail == mail and db_token == token:
+            ret = True
+        else:
+            ret = False
         connection.close()
-        return True
+        return ret
     else:
         return False
-
-# result = connection.execute(f"SELECT * FROM {table_name} WHERE Login=?", params)
-# print(

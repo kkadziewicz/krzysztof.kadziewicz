@@ -7,7 +7,7 @@ print(f"blah blah blah - {__name__} / To jest przetwarzane przy jakimkolwiek imp
 # https://sqlitebrowser.org/
 
 def generate_token():
-    new_token = token_hex(60)
+    new_token = token_hex(12)
     print(new_token)
     return new_token
 
@@ -24,3 +24,4 @@ def create_user_record(db, user, token):
         return True
     else:
         return False
+

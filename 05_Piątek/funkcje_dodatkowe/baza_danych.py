@@ -25,3 +25,18 @@ def create_user_record(db, user, token):
     else:
         return False
 
+def check_mail(db, mail, token):
+    table = "userdata"
+    if os.path.exists(db):
+        connection = connect(db)
+        cursor = connection.cursor()
+        result = cursor.execute(f"SELECT * FROM {table} WHERE token=?", token)
+        print(result.fetchall())
+        connection.commit()
+        connection.close()
+        return True
+    else:
+        return False
+
+# result = connection.execute(f"SELECT * FROM {table_name} WHERE Login=?", params)
+# print(

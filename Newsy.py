@@ -17,9 +17,11 @@ def get_news():
         # Wyczyść poprzednie wyniki
         news_list.delete(0, tk.END)
 
-        # Wyświetl tytuł każdego artykułu
+        # Wyświetl tytuł i link każdego artykułu
         for article in response.json()['articles']:
-            news_list.insert(tk.END, article['title'])
+            news_title = article['title']
+            news_url = article['url']
+            news_list.insert(tk.END, f"{news_title} ({news_url})")
     else:
         news_list.insert(tk.END, "Wystąpił problem z pobieraniem newsów.")
 

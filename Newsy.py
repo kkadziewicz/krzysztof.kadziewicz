@@ -1,5 +1,6 @@
 import requests
 import tkinter as tk
+import webbrowser
 
 # Zdefiniuj klucz API do NewsAPI.org
 api_key = "3d797c82c9b04851b1d74bf763bf5a7e"
@@ -21,7 +22,11 @@ def get_news():
         for article in response.json()['articles']:
             news_title = article['title']
             news_url = article['url']
-            news_list.insert(tk.END, f"{news_title} ({news_url})")
+            news_list.insert(tk.END, news_title)
+            # Dodaj link do tagu tekstowego dla każdego newsa
+            news_list.tag_add(news_url, f"{news_list.size()-1}.0", f"{news_list.size()-1}.end")
+            # Dodaj zdarzenie kliknięcia do linku
+            news_list.tag_bind(news_url, "<Button-1>", lambda event, url=article['url']: webbrowser.open_new(url))
     else:
         news_list.insert(tk.END, "Wystąpił problem z pobieraniem newsów.")
 
@@ -34,7 +39,7 @@ get_news_button = tk.Button(root, text="Pobierz newsy", command=get_news)
 get_news_button.pack(pady=10)
 
 # Stwórz listę do wyświetlania newsów
-news_list = tk.Listbox(root, width=80)
+news_list = tk.Text(root, width=80, height=30)
 news_list.pack()
 
 # Uruchom pętlę zdarzeń interfejsu graficznego

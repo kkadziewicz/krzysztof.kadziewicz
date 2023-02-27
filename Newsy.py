@@ -7,7 +7,7 @@ API_KEY = '3d797c82c9b04851b1d74bf763bf5a7e'
 
 # Utwórz okno programu
 root = tk.Tk()
-root.title('Najnowsze newsy')
+root.title('Najnowsze wiadomości')
 
 # Utwórz etykietę z tytułem programu
 title_label = tk.Label(root, text='Najnowsze newsy', font=('Arial', 18))

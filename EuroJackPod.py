@@ -5,8 +5,8 @@ liczby = 5
 dodatkowe_liczby = 2
 
 # Wygeneruj listę liczb do wylosowania
-numery = list(range(1,51))
-dodatkowe_numery = list(range(1,13))
+numery = list(range(1, 51))
+dodatkowe_numery = list(range(1, 13))
 
 # Losuj liczby i dodatkowe liczby
 wylosowane_liczby = random.sample(numery, liczby)
